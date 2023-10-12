@@ -9,5 +9,5 @@ class IMC {
     required this.peso,
     required this.altura,
     required this.imc
-  })
+  });
 }

@@ -1,16 +1,27 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
+import 'imc.dart';
 
-class CalculateIMCService extends StatefulWidget {
-  const CalculateIMCService({super.key});
+class CalculateIMCService {
+  List<IMC> ImcList = [];
 
+  double calculateImc(double peso, double altura) {
+    double calculateImc = peso / pow(altura, 2);
+    return calculateImc;
+  }
 
-  @override
-  State<CalculateIMCService> createState() => _CalculateIMCState();
-}
+  IMC setImc(String nome, double peso, double altura) {
+    var calculateImc = calculateImc(peso, altura);
 
-class _CalculateIMCState extends State<CalculateIMCService> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+    var imc = IMC(nome: nome, peso: peso, altura: altura, imc: calculateImc);
+
+    return imc;
+  }
+
+  void setImcList(IMC imc) {
+    ImcList.add(imc);
+  }
+
+  List<IMC> getImcList() {
+    return ImcList;
   }
 }
