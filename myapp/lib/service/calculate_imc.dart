@@ -1,18 +1,17 @@
-import 'dart:math';
 import 'imc.dart';
 
 class CalculateIMCService {
   List<IMC> ImcList = [];
 
   double calculateImc(double peso, double altura) {
-    double calculateImc = peso / pow(altura, 2);
+    double calculateImc = peso / altura * altura;
     return calculateImc;
   }
 
-  IMC setImc(String nome, double peso, double altura) {
-    var calculateImc = calculateImc(peso, altura);
+  IMC setImc(double peso, double altura) {
+    var imcCalculator = calculateImc(peso, altura);
 
-    var imc = IMC(nome: nome, peso: peso, altura: altura, imc: calculateImc);
+    var imc = IMC(peso: peso, altura: altura, imc: imcCalculator);
 
     return imc;
   }
