@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../service/calculate_imc.dart';
+import '../classes/calculate_imc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,8 +12,7 @@ class _HomePageState extends State<HomePage> {
 
   double? peso;
   double? altura;
-  var calculateImcService = CalculateIMCService();
-  var imc;
+  var imcCalculator = CalculateImc();
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +62,10 @@ class _HomePageState extends State<HomePage> {
                         backgroundColor: MaterialStatePropertyAll(Colors.black12)
                       ),
                       onPressed: () {
-                        imc = calculateImcService.setImc(peso!, altura!);
-                        setState(() {});
+                        imcCalculator;
+                        setState(() {
+                          'Seu IMC é ${imcCalculator.calculateImc(peso!, altura!)}';
+                        });
                       }, 
                       child: const Text(
                         'Calcular',
