@@ -12,6 +12,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController pesoController = TextEditingController();
   TextEditingController alturaController = TextEditingController();
   String resultado = '';
+  String classificacao = '';
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +63,7 @@ class _HomePageState extends State<HomePage> {
                     height: 100,
                   ),
                   Text(resultado),
+                  Text(classificacao),
                 ],
               ),
             ],
@@ -79,11 +81,33 @@ class _HomePageState extends State<HomePage> {
       double imc = peso / (altura * altura);
       setState(() {
         resultado = 'Seu IMC é ${imc.toStringAsFixed(2)}';
+        classificacao = imcClassification(imc);
       });
     } else {
       setState(() {
         resultado = 'Insira valores válidos';
+        classificacao = '';
       });
+    }
+  }
+
+  String imcClassification(double imc) {
+    if (imc < 16) {
+      return 'Magreza grave!';
+    } if (imc <= 17) {
+      return 'Magreza moderada!';
+    } if (imc <= 18.5) {
+      return 'Magreza leve!';
+    } if (imc <= 25) {
+      return 'Saudável!';
+    } if (imc <= 30) {
+      return 'Sobrepeso!';
+    } if (imc <= 35) {
+      return 'Obesidade grau 1!';
+    } if (imc <= 40) {
+      return 'Obesidade grau 2(Severa)!';
+    } else {
+      return 'Obesidade grau 3(Severa)!';
     }
   }
 }
