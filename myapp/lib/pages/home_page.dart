@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../classes/calculate_imc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,48 +9,36 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  double? peso;
-  double? altura;
-  var imcCalculator = CalculateImc();
+  TextEditingController pesoController = TextEditingController();
+  TextEditingController alturaController = TextEditingController();
+  String resultado = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Calcule o seu IMC!"),
+        title: const Text("Calcule o seu IMC!"),
         backgroundColor: Colors.black12,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
         child: Form(
           child: Column(
             children: [
               TextFormField(
+                controller: pesoController,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
-                  labelText: 'Insira o seu peso'
+                  labelText: 'Insira o seu peso (0.0)'
                 ),
-                onChanged: (value) {
-                  peso = double.parse(value);
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty || double.parse(value) <= 0) {
-                    return 'Valor inválido!';
-                  }
-                }),
-                TextFormField(
+              ),
+              TextFormField(
+                controller: alturaController,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
-                  labelText: 'Insira a sua altura'
+                  labelText: 'Insira a sua altura (0.0)'
                 ),
-                onChanged: (value) {
-                  altura = double.parse(value);
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty || double.parse(value) <= 0) {
-                    return 'Valor inválido!';
-                  }
-                }),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -62,10 +49,7 @@ class _HomePageState extends State<HomePage> {
                         backgroundColor: MaterialStatePropertyAll(Colors.black12)
                       ),
                       onPressed: () {
-                        imcCalculator;
-                        setState(() {
-                          'Seu IMC é ${imcCalculator.calculateImc(peso!, altura!)}';
-                        });
+                        imcCalculator();
                       }, 
                       child: const Text(
                         'Calcular',
@@ -73,6 +57,11 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
+                  const SizedBox(
+                    width: 100,
+                    height: 100,
+                  ),
+                  Text(resultado),
                 ],
               ),
             ],
@@ -80,5 +69,21 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void imcCalculator() {
+    double peso = double.tryParse(pesoController.text) ?? 0.0;
+    double altura = double.tryParse(alturaController.text) ?? 0.0;
+
+    if (peso > 0 && altura > 0) {
+      double imc = peso / (altura * altura);
+      setState(() {
+        resultado = 'Seu IMC é ${imc.toStringAsFixed(2)}';
+      });
+    } else {
+      setState(() {
+        resultado = 'Insira valores válidos';
+      });
+    }
   }
 }
